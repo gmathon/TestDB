@@ -59,20 +59,38 @@ public class Datasource {
     public static final String QUERY_ARTIST_FOR_SONG_SORT =
             " ORDER BY " + TABLE_ARTISTS + "." + COLUMN_ARTIST_NAME + ", " + TABLE_ALBUMS + '.' + COLUMN_ALBUM_NAME + " COLLATE NOCASE ";
 
+//    public static final String QUERY_VIEW_SONG_INFO_PREP = "SELECT " + COLUMN_ARTIST_NAME + ", " + COLUMN_SONGS_ALBUM +
+//            ", " + COLUMN_SONGS_TRACK + " FROM "  + TABLE_ARTISTS_SONG_VIEW
+    public static final String INSERT_ARTIST = "INSERT INTO " + TABLE_ARTISTS + "(" + COLUMN_ARTIST_NAME + ") VALUES(?)";
+    public static final String INSERT_ALBUMS = "INSERT INTO " + TABLE_ALBUMS + "(" +COLUMN_ALBUM_NAME + "," + COLUMN_ALBUM_ARTIST + ") VALUES(?, ?)";
+    public static final String INSER_SONG = "INSERT INTO " + TABLE_SONGS + "(" + COLUMN_SONGS_TRACK + "," + COLUMN_SONGS_TITLE + "," +COLUMN_SONGS_ALBUM + ") VALUES(?, ? ,?)";
+
+
     public Connection conn;
 
+    private PreparedStatement insertintoArtists;
+    private PreparedStatement insertinoalbums;
+    private PreparedStatement insertintosongs;
     public boolean open() {
 
         try {
             conn = DriverManager.getConnection(CONNECTION_STRING);
             return true;
+            insertintoArtists = conn.prepareStatement(INSERT_ARTIST,Statement.RETURN_GENERATED_KEYS);
+            insertinoalbums = conn.prepareStatement(INSERT_ALBUMS,Statement.RETURN_GENERATED_KEYS);
+            insertintosongs = conn.prepareStatement(INSER_SONG);
+            insertintoArtists = conn.prepareStatement(I)
+
         } catch (SQLException e) {
             System.out.println("Couldn't connect to database: " + e.getMessage());
             e.printStackTrace();
             return false;
+        }catch (Exception e2){
+            System.out.println(e2.getMessage());
         }
 
 
+        return false;
     }
 
     public void close() {
@@ -241,7 +259,10 @@ public class Datasource {
         }
         return null;
     }
-
+    private int insertArtist(String name) throws SQLException{
+        insertintoArtists.setString(1,name);
+        ResultSet resultSet = qu
+    }
 }
 
 
